@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<stock>
+	<products>
+		<product>
+			<id>1</id>
+			<name>Stylo BIC classic</name>
+			<price>2.00</price>
+			<quantity>50</quantity>
+		</product>
+		<product>
+			<id>2</id>
+			<name>Stylo Sopra Steria blanc et rouge</name>
+			<price>5.0</price>
+			<quantity>100</quantity>
+		</product>
+	</products>
+	<packs>
+		<pack>
+			<name>BICS incroyables de Noel</name>
+			<products>
+				<product>
+					<id>1</id>
+					<quantity>10</quantity>
+				</product>
+			</products>
+			<price>14.99</price>
+		</pack>
+	</packs>
+</stock>
