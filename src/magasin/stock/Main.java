@@ -8,6 +8,7 @@ public class Main {
 		penSopra.setName("Stylo Sopra Steria blanc et rouge");
 		penSopra.setPrice(5.00);
 		penSopra.setQuantity(100);
-		stock.addProduct(penSopra);
+//		stock.addProduct(penSopra);
+		stock.removeProduct(penSopra);
 	}
 }
