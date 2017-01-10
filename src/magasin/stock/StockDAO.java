@@ -82,7 +82,6 @@ public class StockDAO {
 
 	private void treatElements(NodeList list) {
 
-
 	}
 
 	// TODO : Probleme quand on supprime un produit celui ci se supprime
@@ -198,6 +197,55 @@ public class StockDAO {
 	private boolean isNodeStock(Node node){
 		return node.getParentNode().getParentNode().getParentNode().getNodeName().equals("stock") ? true : false;
 	}
+
+	// TODO : Probleme : la quantité de chaque produit qui se trouveront dans le packs 
+	// auront pour quantité la quantité du stock
+	public void addPack(GiftPack gp){
+		NodeList allPacks = doc.getElementsByTagName("packs"); //Recupere toutes les balises product ainsi que les noeuds fils
+		Node packs = allPacks.item(0);
+		
+		Node nodePack= createNodeFromPack(gp);
+		packs.appendChild(nodePack);
+		modifieDocumentXML();
+	}
+	
+	private Node createNodeFromPack(GiftPack gf){
+		Element pack = doc.createElement("pack");
+		Element name = doc.createElement("name");
+		name.appendChild(doc.createTextNode(gf.getName()));
+		pack.appendChild(name);
+		
+		Element products = doc.createElement("products");
+		pack.appendChild(products);
+		
+		for(int i = 0 ; i < gf.getProducts().size() ; i++){
+			Element product = doc.createElement("product");
+			products.appendChild(product);
+
+			Element id = doc.createElement("id");
+			id.appendChild(doc.createTextNode(gf.getProducts().get(i).getId()));
+			product.appendChild(id);
+			
+			Element quantity = doc.createElement("quantity");
+			quantity.appendChild(doc.createTextNode(gf.getProducts().get(i).getQuantity().toString()));
+			product.appendChild(quantity);
+		}
+		
+		Element price = doc.createElement("price");
+		price.appendChild(doc.createTextNode(gf.getPrice().toString()));
+		pack.appendChild(price);
+		
+		return pack;
+	}
+
+	public void removeGiftPack(GiftPack gf){
+
+	}
+
+	public void updateGiftPack(GiftPack gf){
+
+	}
+
 
 	public void modifieDocumentXML() {
 		Transformer transformer=null;

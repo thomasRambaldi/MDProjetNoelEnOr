@@ -16,7 +16,7 @@ public class Main {
 		penAtos.setId("5");
 		penAtos.setName("Stylo Atos Bleu");
 		penAtos.setPrice(6.00);
-		penAtos.setQuantity(100);
+		penAtos.setQuantity(200);
 		
 //		stock.addProduct(penSopra);
 		
@@ -35,6 +35,17 @@ public class Main {
 
 //		ArrayList<Product> products = stock.getAllProducts();
 //		System.out.println("List des produits : " + products);
+		
+		GiftPack gpPen= new GiftPack();
+		gpPen.setName("Stylo d'entreprise");
+		ArrayList<Product> penProducts = new ArrayList<>();
+		penProducts.add(penSopra);
+		penProducts.add(penAtos);
+		gpPen.setProducts(penProducts);
+		gpPen.setPrice(20.00);
+		
+		stock.addPack(gpPen);
+		
 		
 	}
 }
