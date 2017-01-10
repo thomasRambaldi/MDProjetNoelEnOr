@@ -2,7 +2,7 @@ package magasin.stock;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -132,10 +132,8 @@ public class StockDAO {
 	public void updateProduct(Product oldProduct, Product NewProuct){
 		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
 		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
-			System.out.println(allProduct.item(i).getTextContent());
 			NodeList detailsProduct = allProduct.item(i).getChildNodes();
 			if(detailsProduct.item(3).getTextContent().equals(oldProduct.getName())){
-				System.out.println("GAGNE !!!! ");
 				detailsProduct.item(1).setTextContent(NewProuct.getId());
 				detailsProduct.item(3).setTextContent(NewProuct.getName());
 				detailsProduct.item(5).setTextContent(NewProuct.getPrice().toString());
@@ -143,6 +141,62 @@ public class StockDAO {
 				modifieDocumentXML();
 			}
 		}
+	}
+
+	public Product findProduct(Product p){
+		Product product = null;
+		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
+		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
+			NodeList detailsProduct = allProduct.item(i).getChildNodes();
+			if(detailsProduct.item(3).getTextContent().equals(p.getName())){
+
+				product = new Product();
+				String id = detailsProduct.item(1).getTextContent();
+				product.setId(id); 
+
+				String name = detailsProduct.item(3).getTextContent();
+				product.setName(name); 
+
+				String price = detailsProduct.item(5).getTextContent();
+				product.setPrice(Double.parseDouble(price)); 
+
+				String quantity = detailsProduct.item(7).getTextContent();
+				product.setQuantity(Integer.parseInt(quantity)); 
+			}
+		}
+		return product;
+	}
+
+	public ArrayList<Product> getAllProducts(){
+		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
+		ArrayList<Product> products = new ArrayList<>();
+		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
+			NodeList detailsProduct = allProduct.item(i).getChildNodes();
+			if( ! isNodeStock(detailsProduct.item(i))  ) break;
+			if(detailsProduct.item(3).getNodeType() == Node.ELEMENT_NODE ){
+
+				Product product = new Product();
+
+				String id = detailsProduct.item(1).getTextContent();
+				product.setId(id); 
+
+				String name = detailsProduct.item(3).getTextContent();
+				product.setName(name); 
+
+				String price = detailsProduct.item(5).getTextContent();
+				product.setPrice(Double.parseDouble(price)); 
+
+				String quantity = detailsProduct.item(7).getTextContent();
+				product.setQuantity(Integer.parseInt(quantity));
+				products.add(product);
+
+			}
+		}
+		return products;
+	}
+
+	private boolean isNodeStock(Node node){
+		return node.getParentNode().getParentNode().getParentNode().getNodeName().equals("stock") ? true : false;
 	}
 
 	public void modifieDocumentXML() {

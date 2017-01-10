@@ -13,6 +13,11 @@ public class Product {
 		return id;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", quantity=" + quantity + "]";
+	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
