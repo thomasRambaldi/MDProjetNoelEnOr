@@ -87,7 +87,8 @@ public class StockDAO {
 
 	// TODO : Probleme quand on supprime un produit celui ci se supprime
 	// Mais il laisse une ligne vide !! 
-	public void removeProduct(Product p){
+	@Deprecated
+	public void removeProduct2(Product p){
 		Element racine = doc.getDocumentElement();
 		NodeList list = racine.getChildNodes();
 		for(int i=0; i < list.getLength(); i++){
@@ -109,9 +110,37 @@ public class StockDAO {
 								}
 							}
 						}
-
 					}
 				}
+			}
+		}
+	}
+
+	// TODO : Probleme quand on supprime un produit celui ci se supprime
+	// Mais il laisse une ligne vide !! 
+	public void removeProduct(Product p){
+		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
+		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
+			NodeList detailsProduct = allProduct.item(i).getChildNodes();
+			if(detailsProduct.item(3).getTextContent().equals(p.getName())){
+				allProduct.item(i).getParentNode().removeChild(allProduct.item(i));
+				modifieDocumentXML();
+			}
+		}
+	}
+
+	public void updateProduct(Product oldProduct, Product NewProuct){
+		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
+		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
+			System.out.println(allProduct.item(i).getTextContent());
+			NodeList detailsProduct = allProduct.item(i).getChildNodes();
+			if(detailsProduct.item(3).getTextContent().equals(oldProduct.getName())){
+				System.out.println("GAGNE !!!! ");
+				detailsProduct.item(1).setTextContent(NewProuct.getId());
+				detailsProduct.item(3).setTextContent(NewProuct.getName());
+				detailsProduct.item(5).setTextContent(NewProuct.getPrice().toString());
+				detailsProduct.item(7).setTextContent(NewProuct.getQuantity().toString());
+				modifieDocumentXML();
 			}
 		}
 	}
