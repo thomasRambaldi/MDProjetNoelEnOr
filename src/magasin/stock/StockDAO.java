@@ -21,6 +21,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+
+/*
+ * Faudrai pourvoir ajouter / editer / supprimer des produits qui se trouve dans un gifpack
+ */
+
 public class StockDAO {
 	private String fileName="stock.xml";
 	private static final String PATH = "src/magasin/stock/";
@@ -238,9 +243,48 @@ public class StockDAO {
 		return pack;
 	}
 
-	public void removeGiftPack(GiftPack gf){
+	// TODO : Probleme quand on supprime un giftPack, celui ci se supprime
+	// Mais il laisse une ligne vide !! 
+	public void removeGiftPack(GiftPack gp){
+		NodeList allPack = doc.getElementsByTagName("pack"); // //Recupere toutes les balises pack ainsi que les noeuds fils
 
-	}
+		for(int i = 0 ; i < allPack.getLength() ; i++){ // parcours de tous les pack
+			NodeList detailsPack = allPack.item(i).getChildNodes();
+			for(int j = 0 ; j < allPack.getLength() ; j++){ // parcours des balises name and products
+				Node baliseName = detailsPack.item(j);
+				NodeList name = detailsPack.item(j).getChildNodes();
+				if(baliseName.getNodeType() == Node.ELEMENT_NODE){
+					for(int k = 0 ; k < name.getLength() ; k++){
+//						System.out.print("<"+baliseName.getNodeName()+">");
+//						System.out.print(name.item(k).getTextContent());
+//						System.out.println("</"+baliseName.getNodeName()+">");
+						if(name.item(k).getTextContent().equals(gp.getName())){
+							allPack.item(i).getParentNode().removeChild(allPack.item(i));
+							modifieDocumentXML();
+						}
+							
+					}
+				}
+			}
+		}
+			/*
+				NodeList products = detailsPack.item(j).getChildNodes();
+				System.out.println(" " + detailsPack.item(j).getNodeName());
+				for(int m = 0 ; m < products.getLength() ; m++){
+					System.out.println("	" + products.item(m).getTextContent());
+				}
+			}
+			*/
+		}
+			
+//		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
+//		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
+//			NodeList detailsProduct = allProduct.item(i).getChildNodes();
+//			if(detailsProduct.item(3).getTextContent().equals(p.getName())){
+//				allProduct.item(i).getParentNode().removeChild(allProduct.item(i));
+//				modifieDocumentXML();
+//			}
+//		}
 
 	public void updateGiftPack(GiftPack gf){
 

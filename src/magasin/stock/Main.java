@@ -44,8 +44,8 @@ public class Main {
 		gpPen.setProducts(penProducts);
 		gpPen.setPrice(20.00);
 		
-		stock.addPack(gpPen);
+//		stock.addPack(gpPen);
 		
-		
+		stock.removeGiftPack(gpPen);
 	}
 }
