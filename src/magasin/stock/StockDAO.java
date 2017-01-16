@@ -44,25 +44,55 @@ public class StockDAO {
 		}
 	}
 
-	public void addProduct(Product p){
-		Element racine = doc.getDocumentElement();
-		NodeList list = racine.getChildNodes();
-		for(int i=0; i < list.getLength(); i++){
-			Node stock = list.item(i);
-			if(stock.getNodeType()==Node.ELEMENT_NODE){ /*balise stock*/
-				NodeList childsStock = stock.getChildNodes();
-				for(int k=0; k < childsStock.getLength(); k++){
-					Node products = list.item(i);
-					if(products.getNodeType()==Node.ELEMENT_NODE){ /* balise products */
-						Node nodeProduct = createNodeFromProduct(p);
-						products.appendChild(nodeProduct);
-						modifieDocumentXML();
-						break;
-					}
-				}
-				break;
-			}	
+	public void addProduct(Product p) {
+		Node baliseProducts = doc.getElementsByTagName("products").item(0);
+		NodeList products = doc.getElementsByTagName("product");
+		
+//		switch(productAlreadyExist(p))
+		
+		if(productAlreadyExist(p) == 0){
+			saveModifications();
+			return;
 		}
+		
+		for(int i = 0; i < products.getLength() ; i++){
+			Node nodeProduct = products.item(i);
+			Product product = createProductFromNode(nodeProduct);
+			if(product.getId().equals(p.getId())){
+				if( product.getName().equals(p.getName())){
+					nodeProduct.getChildNodes().item(7).setTextContent(Integer.toString(product.getQuantity()+p.getQuantity()));
+					saveModifications();
+					return;
+				}
+				else{
+					System.err.println("Erreur de mise en stock : le produit \""+p.getName()+"\"\nà un id : "+p.getId()+" déjà utilisé par le produit \""+product.getName()+"\"");
+					return;
+				}
+			}
+		}
+		
+		Node product = createNodeFromProduct(p);
+		baliseProducts.appendChild(product);
+		saveModifications();
+	}
+	
+	private int productAlreadyExist(Product p){
+		NodeList products = doc.getElementsByTagName("product");
+		for(int i = 0; i < products.getLength() ; i++){
+			Node nodeProduct = products.item(i);
+			Product product = createProductFromNode(nodeProduct);
+			if(product.getId().equals(p.getId())){
+				if( product.getName().equals(p.getName())){
+					nodeProduct.getChildNodes().item(7).setTextContent(Integer.toString(product.getQuantity()+p.getQuantity()));
+					return 0;
+				}
+				else{
+					System.err.println("Erreur de mise en stock : le produit \""+p.getName()+"\"\nà un id : "+p.getId()+" déjà utilisé par le produit \""+product.getName()+"\"");
+					return 1;
+				}
+			}
+		}
+		return 2;
 	}
 
 	private Node createNodeFromProduct(Product p) {
@@ -80,8 +110,22 @@ public class StockDAO {
 		product.appendChild(name);
 		product.appendChild(price);
 		product.appendChild(quantity);
-		System.out.println();
 
+		return product;
+	}
+	
+	private Product createProductFromNode(Node n) {
+		Product product = new Product();
+		NodeList itemsProducts = n.getChildNodes();
+		for(int i=0; i<itemsProducts.getLength(); i++){
+			Node itemProduct = itemsProducts.item(i);
+			if(itemProduct.getNodeType()==Node.ELEMENT_NODE){
+				if(itemProduct.getNodeName().equals("id"))       product.setId(itemProduct.getTextContent());
+				if(itemProduct.getNodeName().equals("name"))     product.setName(itemProduct.getTextContent());
+				if(itemProduct.getNodeName().equals("price"))    product.setPrice(Double.valueOf(itemProduct.getTextContent()));
+				if(itemProduct.getNodeName().equals("quantity")) product.setQuantity(Integer.decode(itemProduct.getTextContent()));
+			}
+		}
 		return product;
 	}
 
@@ -97,7 +141,7 @@ public class StockDAO {
 			NodeList detailsProduct = allProduct.item(i).getChildNodes();
 			if(detailsProduct.item(3).getTextContent().equals(p.getName())){
 				allProduct.item(i).getParentNode().removeChild(allProduct.item(i));
-				modifieDocumentXML();
+				saveModifications();
 			}
 		}
 	}
@@ -111,7 +155,7 @@ public class StockDAO {
 				detailsProduct.item(3).setTextContent(NewProuct.getName());
 				detailsProduct.item(5).setTextContent(NewProuct.getPrice().toString());
 				detailsProduct.item(7).setTextContent(NewProuct.getQuantity().toString());
-				modifieDocumentXML();
+				saveModifications();
 			}
 		}
 	}
@@ -172,15 +216,15 @@ public class StockDAO {
 		return node.getParentNode().getParentNode().getParentNode().getNodeName().equals("stock") ? true : false;
 	}
 
-	// TODO : Probleme : la quantit� de chaque produit qui se trouveront dans le packs 
-	// auront pour quantit� la quantit� du stock
+	// TODO : Probleme : la quantit� de chaque produit qui se trouveront dans le packs 
+	// auront pour quantit� la quantit� du stock
 	public void addPack(GiftPack gp){
 		NodeList allPacks = doc.getElementsByTagName("packs"); //Recupere toutes les balises product ainsi que les noeuds fils
 		Node packs = allPacks.item(0);
 
 		Node nodePack= createNodeFromPack(gp);
 		packs.appendChild(nodePack);
-		modifieDocumentXML();
+		saveModifications();
 	}
 
 	private Node createNodeFromPack(GiftPack gf){
@@ -189,7 +233,7 @@ public class StockDAO {
 		name.appendChild(doc.createTextNode(gf.getName()));
 		pack.appendChild(name);
 
-		Element products = doc.createElement("productsGP");
+		Element products = doc.createElement("idProducts");
 		pack.appendChild(products);
 
 		for(int i = 0 ; i < gf.getProducts().size() ; i++){
@@ -229,7 +273,7 @@ public class StockDAO {
 						//						System.out.println("</"+baliseName.getNodeName()+">");
 						if(name.item(k).getTextContent().equals(gp.getName())){
 							allPack.item(i).getParentNode().removeChild(allPack.item(i));
-							modifieDocumentXML();
+							saveModifications();
 						}
 
 					}
@@ -237,6 +281,7 @@ public class StockDAO {
 			}
 		}
 	}
+
 
 	//	TODO : pas fini. Faut mettre les produits a l'interieur du packs a jour
 	public void updateGiftPack(GiftPack oldGp, GiftPack newGp){
@@ -251,7 +296,7 @@ public class StockDAO {
 					if(name.getTextContent().equals(oldGp.getName())){
 						name.setTextContent(newGp.getName());
 //						NodeList productsGP = doc.getElementsByTagName("productsGP"); // On recupere tous les produits contenu dans le packs
-						modifieDocumentXML();
+						saveModifications();
 					}
 
 				}
@@ -259,7 +304,7 @@ public class StockDAO {
 		}
 	}
 
-	public void modifieDocumentXML() {
+	public void saveModifications() {
 		Transformer transformer=null;
 		try {
 			transformer = TransformerFactory.newInstance().newTransformer();

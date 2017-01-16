@@ -14,11 +14,12 @@ public class Main {
 		
 		Product penAtos = new Product();
 		penAtos.setId("5");
-		penAtos.setName("Stylo Atos Bleu");
+		penAtos.setName("Stylo Atos Rouge");
 		penAtos.setPrice(6.00);
 		penAtos.setQuantity(200);
 		
-//		stock.addProduct(penSopra);
+		stock.addProduct(penSopra);
+		stock.addProduct(penAtos);
 		
 //		stock.removeProduct(penSopra);
 
