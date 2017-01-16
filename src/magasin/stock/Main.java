@@ -18,9 +18,9 @@ public class Main {
 		penAtos.setPrice(6.00);
 		penAtos.setQuantity(200);
 		
-		stock.addProduct(penSopra);
-		stock.addProduct(penAtos);
-		
+//		stock.addProduct(penSopra);
+//		stock.addProduct(penAtos);
+			
 //		stock.removeProduct(penSopra);
 
 //		stock.updateProduct(penSopra, penAtos);

@@ -237,7 +237,7 @@ public class StockDAO {
 		pack.appendChild(products);
 
 		for(int i = 0 ; i < gf.getProducts().size() ; i++){
-			Element product = doc.createElement("productGP");
+			Element product = doc.createElement("idProduct");
 			products.appendChild(product);
 
 			Element id = doc.createElement("id");
@@ -283,10 +283,10 @@ public class StockDAO {
 	}
 
 
-	//	TODO : pas fini. Faut mettre les produits a l'interieur du packs a jour
+//	TODO : pas fini. Faut mettre les produits a l'interieur du packs a jour
+	// COmment recupere le frere dans les balises pack ?
 	public void updateGiftPack(GiftPack oldGp, GiftPack newGp){
 		NodeList allPack = doc.getElementsByTagName("pack"); // //Recupere toutes les balises pack ainsi que les noeuds fils
-
 		for(int i = 0 ; i < allPack.getLength() ; i++){ // parcours de tous les pack
 			NodeList detailsPack = allPack.item(i).getChildNodes();
 			for(int j = 0 ; j < allPack.getLength() ; j++){ // parcours des balises name and products
@@ -295,7 +295,11 @@ public class StockDAO {
 				if(baliseName.getNodeType() == Node.ELEMENT_NODE){
 					if(name.getTextContent().equals(oldGp.getName())){
 						name.setTextContent(newGp.getName());
-//						NodeList productsGP = doc.getElementsByTagName("productsGP"); // On recupere tous les produits contenu dans le packs
+
+//						NodeList idProducts= doc.getElementsByTagName("idProducts"); // On recupere tous les produits contenu dans le packs
+//						for(int m = 0 ; m < idProducts.getLength() ; m++){ // parcours des balises name and products
+//							System.out.println(idProducts.item(m).getNodeName());
+//						}
 						saveModifications();
 					}
 
