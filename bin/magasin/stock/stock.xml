@@ -11,33 +11,26 @@
 			<id>2</id>
 			<name>Stylo Sopra Steria blanc et rouge</name>
 			<price>5.0</price>
-			<quantity>100</quantity>
+			<quantity>600</quantity>
+		</product>
+		<product>
+			<id>5</id>
+			<name>Stylo Atos Bleu</name>
+			<price>6.0</price>
+			<quantity>400</quantity>
 		</product>
 	</products>
 	<packs>
 		<pack>
 			<name>BICS incroyables de Noel</name>
-			<products>
-				<product>
+			<idProducts>
+				<idProduct>
 					<id>1</id>
 					<quantity>10</quantity>
-				</product>
-			</products>
+				</idProduct>
+			</idProducts>
 			<price>14.99</price>
 		</pack>
-		<pack>
-			<name>Stylo d'entreprise</name>
-			<products>
-				<product>
-					<id>2</id>
-					<quantity>100</quantity>
-				</product>
-				<product>
-					<id>5</id>
-					<quantity>200</quantity>
-				</product>
-			</products>
-			<price>20.0</price>
-		</pack>
+
 	</packs>
 </stock>
