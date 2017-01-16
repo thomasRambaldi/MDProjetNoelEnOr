@@ -27,16 +27,16 @@
 		</pack>
 		<pack>
 			<name>Stylo d'entreprise</name>
-			<products>
-				<product>
+			<productsGP>
+				<productGP>
 					<id>2</id>
 					<quantity>100</quantity>
-				</product>
-				<product>
+				</productGP>
+				<productGP>
 					<id>5</id>
 					<quantity>200</quantity>
-				</product>
-			</products>
+				</productGP>
+			</productsGP>
 			<price>20.0</price>
 		</pack>
 	</packs>

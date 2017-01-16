@@ -91,37 +91,6 @@ public class StockDAO {
 
 	// TODO : Probleme quand on supprime un produit celui ci se supprime
 	// Mais il laisse une ligne vide !! 
-	@Deprecated
-	public void removeProduct2(Product p){
-		Element racine = doc.getDocumentElement();
-		NodeList list = racine.getChildNodes();
-		for(int i=0; i < list.getLength(); i++){
-			Node stock = list.item(i);
-			if(stock.getNodeType()==Node.ELEMENT_NODE){ /*balise stock*/
-				NodeList childsStock = stock.getChildNodes();
-				for(int k=0; k < childsStock.getLength(); k++){
-					Node products = list.item(k);
-					if(products.getNodeType()==Node.ELEMENT_NODE){ /* balise products */
-						NodeList listProduct = products.getChildNodes();
-						for(int m=0 ; m < listProduct.getLength() ; m++){
-							Node product = listProduct.item(m);
-							if(product.getNodeType()==Node.ELEMENT_NODE){ /* balise product */
-								NodeList childProduct = product.getChildNodes();
-								String productName = childProduct.item(3).getTextContent();
-								if( productName.equals(p.getName()) ){
-									product.getParentNode().removeChild(product);
-									modifieDocumentXML();
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// TODO : Probleme quand on supprime un produit celui ci se supprime
-	// Mais il laisse une ligne vide !! 
 	public void removeProduct(Product p){
 		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
 		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
@@ -208,38 +177,38 @@ public class StockDAO {
 	public void addPack(GiftPack gp){
 		NodeList allPacks = doc.getElementsByTagName("packs"); //Recupere toutes les balises product ainsi que les noeuds fils
 		Node packs = allPacks.item(0);
-		
+
 		Node nodePack= createNodeFromPack(gp);
 		packs.appendChild(nodePack);
 		modifieDocumentXML();
 	}
-	
+
 	private Node createNodeFromPack(GiftPack gf){
 		Element pack = doc.createElement("pack");
 		Element name = doc.createElement("name");
 		name.appendChild(doc.createTextNode(gf.getName()));
 		pack.appendChild(name);
-		
-		Element products = doc.createElement("products");
+
+		Element products = doc.createElement("productsGP");
 		pack.appendChild(products);
-		
+
 		for(int i = 0 ; i < gf.getProducts().size() ; i++){
-			Element product = doc.createElement("product");
+			Element product = doc.createElement("productGP");
 			products.appendChild(product);
 
 			Element id = doc.createElement("id");
 			id.appendChild(doc.createTextNode(gf.getProducts().get(i).getId()));
 			product.appendChild(id);
-			
+
 			Element quantity = doc.createElement("quantity");
 			quantity.appendChild(doc.createTextNode(gf.getProducts().get(i).getQuantity().toString()));
 			product.appendChild(quantity);
 		}
-		
+
 		Element price = doc.createElement("price");
 		price.appendChild(doc.createTextNode(gf.getPrice().toString()));
 		pack.appendChild(price);
-		
+
 		return pack;
 	}
 
@@ -255,41 +224,40 @@ public class StockDAO {
 				NodeList name = detailsPack.item(j).getChildNodes();
 				if(baliseName.getNodeType() == Node.ELEMENT_NODE){
 					for(int k = 0 ; k < name.getLength() ; k++){
-//						System.out.print("<"+baliseName.getNodeName()+">");
-//						System.out.print(name.item(k).getTextContent());
-//						System.out.println("</"+baliseName.getNodeName()+">");
+						//						System.out.print("<"+baliseName.getNodeName()+">");
+						//						System.out.print(name.item(k).getTextContent());
+						//						System.out.println("</"+baliseName.getNodeName()+">");
 						if(name.item(k).getTextContent().equals(gp.getName())){
 							allPack.item(i).getParentNode().removeChild(allPack.item(i));
 							modifieDocumentXML();
 						}
-							
+
 					}
 				}
 			}
 		}
-			/*
-				NodeList products = detailsPack.item(j).getChildNodes();
-				System.out.println(" " + detailsPack.item(j).getNodeName());
-				for(int m = 0 ; m < products.getLength() ; m++){
-					System.out.println("	" + products.item(m).getTextContent());
-				}
-			}
-			*/
-		}
-			
-//		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
-//		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
-//			NodeList detailsProduct = allProduct.item(i).getChildNodes();
-//			if(detailsProduct.item(3).getTextContent().equals(p.getName())){
-//				allProduct.item(i).getParentNode().removeChild(allProduct.item(i));
-//				modifieDocumentXML();
-//			}
-//		}
-
-	public void updateGiftPack(GiftPack gf){
-
 	}
 
+	//	TODO : pas fini. Faut mettre les produits a l'interieur du packs a jour
+	public void updateGiftPack(GiftPack oldGp, GiftPack newGp){
+		NodeList allPack = doc.getElementsByTagName("pack"); // //Recupere toutes les balises pack ainsi que les noeuds fils
+
+		for(int i = 0 ; i < allPack.getLength() ; i++){ // parcours de tous les pack
+			NodeList detailsPack = allPack.item(i).getChildNodes();
+			for(int j = 0 ; j < allPack.getLength() ; j++){ // parcours des balises name and products
+				Node baliseName = detailsPack.item(j);
+				Node name = detailsPack.item(j).getFirstChild();
+				if(baliseName.getNodeType() == Node.ELEMENT_NODE){
+					if(name.getTextContent().equals(oldGp.getName())){
+						name.setTextContent(newGp.getName());
+//						NodeList productsGP = doc.getElementsByTagName("productsGP"); // On recupere tous les produits contenu dans le packs
+						modifieDocumentXML();
+					}
+
+				}
+			}
+		}
+	}
 
 	public void modifieDocumentXML() {
 		Transformer transformer=null;

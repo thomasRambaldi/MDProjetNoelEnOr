@@ -46,6 +46,16 @@ public class Main {
 		
 //		stock.addPack(gpPen);
 		
-		stock.removeGiftPack(gpPen);
+//		stock.removeGiftPack(gpPen);
+		
+		GiftPack newGpPen= new GiftPack();
+		newGpPen.setName("Stylo d'entreprises et stagiares");
+		ArrayList<Product> newPenProducts = new ArrayList<>();
+		newPenProducts.add(penSopra);
+		newPenProducts.add(penAtos);
+		newGpPen.setProducts(penProducts);
+		newGpPen.setPrice(50.00);
+		
+		stock.updateGiftPack(gpPen, newGpPen);
 	}
 }
