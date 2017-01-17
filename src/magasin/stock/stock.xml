@@ -4,20 +4,14 @@
         <product>
             <id>1</id>
             <name>Stylo BIC classic</name>
-            <price>2.00</price>
+            <price>2.0</price>
             <quantity>50</quantity>
         </product>
         <product>
             <id>5</id>
-            <name>Stylo Atos Bleu</name>
-            <price>6.0</price>
-            <quantity>400</quantity>
-        </product>
-		<product>
-            <id>2</id>
-            <name>Stylo Sopra Steria blanc et rouge</name>
-            <price>40</price>
-            <quantity>100</quantity>
+            <name>Stylo Atos Rouge</name>
+            <price>25.79890175999999</price>
+            <quantity>600</quantity>
         </product>
     </products>
     <packs>

@@ -166,8 +166,9 @@ public class StockDAO {
 		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
 		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
 			Node product = allProduct.item(i);
-			if(product.getChildNodes().item(1).getTextContent().equals(id))
+			if(product.getChildNodes().item(1).getTextContent().equals(id)){
 				return product;
+			}
 		}
 		return null;
 	}
