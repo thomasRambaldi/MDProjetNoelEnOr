@@ -109,37 +109,6 @@ public class StockDAO {
 
 	// TODO : Probleme quand on supprime un produit celui ci se supprime
 	// Mais il laisse une ligne vide !! 
-	@Deprecated
-	public void removeProduct2(Product p){
-		Element racine = doc.getDocumentElement();
-		NodeList list = racine.getChildNodes();
-		for(int i=0; i < list.getLength(); i++){
-			Node stock = list.item(i);
-			if(stock.getNodeType()==Node.ELEMENT_NODE){ /*balise stock*/
-				NodeList childsStock = stock.getChildNodes();
-				for(int k=0; k < childsStock.getLength(); k++){
-					Node products = list.item(k);
-					if(products.getNodeType()==Node.ELEMENT_NODE){ /* balise products */
-						NodeList listProduct = products.getChildNodes();
-						for(int m=0 ; m < listProduct.getLength() ; m++){
-							Node product = listProduct.item(m);
-							if(product.getNodeType()==Node.ELEMENT_NODE){ /* balise product */
-								NodeList childProduct = product.getChildNodes();
-								String productName = childProduct.item(3).getTextContent();
-								if( productName.equals(p.getName()) ){
-									product.getParentNode().removeChild(product);
-									saveModifications();
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// TODO : Probleme quand on supprime un produit celui ci se supprime
-	// Mais il laisse une ligne vide !! 
 	public void removeProduct(Product p){
 		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
 		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
@@ -238,11 +207,11 @@ public class StockDAO {
 		name.appendChild(doc.createTextNode(gf.getName()));
 		pack.appendChild(name);
 
-		Element products = doc.createElement("products");
+		Element products = doc.createElement("idProducts");
 		pack.appendChild(products);
 
 		for(int i = 0 ; i < gf.getProducts().size() ; i++){
-			Element product = doc.createElement("product");
+			Element product = doc.createElement("idProduct");
 			products.appendChild(product);
 
 			Element id = doc.createElement("id");
@@ -285,29 +254,33 @@ public class StockDAO {
 				}
 			}
 		}
-		/*
-				NodeList products = detailsPack.item(j).getChildNodes();
-				System.out.println(" " + detailsPack.item(j).getNodeName());
-				for(int m = 0 ; m < products.getLength() ; m++){
-					System.out.println("	" + products.item(m).getTextContent());
+	}
+
+
+//	TODO : pas fini. Faut mettre les produits a l'interieur du packs a jour
+	// COmment recupere le frere dans les balises pack ?
+	public void updateGiftPack(GiftPack oldGp, GiftPack newGp){
+		NodeList allPack = doc.getElementsByTagName("pack"); // //Recupere toutes les balises pack ainsi que les noeuds fils
+		for(int i = 0 ; i < allPack.getLength() ; i++){ // parcours de tous les pack
+			NodeList detailsPack = allPack.item(i).getChildNodes();
+			for(int j = 0 ; j < allPack.getLength() ; j++){ // parcours des balises name and products
+				Node baliseName = detailsPack.item(j);
+				Node name = detailsPack.item(j).getFirstChild();
+				if(baliseName.getNodeType() == Node.ELEMENT_NODE){
+					if(name.getTextContent().equals(oldGp.getName())){
+						name.setTextContent(newGp.getName());
+
+//						NodeList idProducts= doc.getElementsByTagName("idProducts"); // On recupere tous les produits contenu dans le packs
+//						for(int m = 0 ; m < idProducts.getLength() ; m++){ // parcours des balises name and products
+//							System.out.println(idProducts.item(m).getNodeName());
+//						}
+						saveModifications();
+					}
+
 				}
 			}
-		 */
+		}
 	}
-
-	//		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
-	//		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
-	//			NodeList detailsProduct = allProduct.item(i).getChildNodes();
-	//			if(detailsProduct.item(3).getTextContent().equals(p.getName())){
-	//				allProduct.item(i).getParentNode().removeChild(allProduct.item(i));
-	//				modifieDocumentXML();
-	//			}
-	//		}
-
-	public void updateGiftPack(GiftPack gf){
-
-	}
-
 
 	public void saveModifications() {
 		Transformer transformer=null;
