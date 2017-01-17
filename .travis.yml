@@ -10,4 +10,4 @@ script:
   - echo "compiling files" 
   - mvn test -B
   - echo "running test"
-  - ant StockTest	
+  - mvn test -f ./MDprojetNoelEnOr.pom.xml	
