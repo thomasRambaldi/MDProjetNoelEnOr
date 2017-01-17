@@ -47,14 +47,6 @@ public class StockDAO {
 	public void addProduct(Product p) {
 		Node baliseProducts = doc.getElementsByTagName("products").item(0);
 		NodeList products = doc.getElementsByTagName("product");
-
-		//		switch(productAlreadyExist(p))
-
-		if(productAlreadyExist(p) == 0){
-			saveModifications();
-			return;
-		}
-
 		for(int i = 0; i < products.getLength() ; i++){
 			Node nodeProduct = products.item(i);
 			Product product = createProductFromNode(nodeProduct);
@@ -74,25 +66,6 @@ public class StockDAO {
 		Node product = createNodeFromProduct(p);
 		baliseProducts.appendChild(product);
 		saveModifications();
-	}
-
-	private int productAlreadyExist(Product p){
-		NodeList products = doc.getElementsByTagName("product");
-		for(int i = 0; i < products.getLength() ; i++){
-			Node nodeProduct = products.item(i);
-			Product product = createProductFromNode(nodeProduct);
-			if(product.getId().equals(p.getId())){
-				if( product.getName().equals(p.getName())){
-					nodeProduct.getChildNodes().item(7).setTextContent(Integer.toString(product.getQuantity()+p.getQuantity()));
-					return 0;
-				}
-				else{
-					System.err.println("Erreur de mise en stock : le produit \""+p.getName()+"\"\nà un id : "+p.getId()+" déjà utilisé par le produit \""+product.getName()+"\"");
-					return 1;
-				}
-			}
-		}
-		return 2;
 	}
 
 	private Node createNodeFromProduct(Product p) {
