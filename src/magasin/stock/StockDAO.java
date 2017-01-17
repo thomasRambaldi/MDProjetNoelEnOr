@@ -51,6 +51,7 @@ public class StockDAO {
 	public void addProduct(Product p) {
 		Node baliseProducts = doc.getElementsByTagName("products").item(0);
 		NodeList products = doc.getElementsByTagName("product");
+		
 		/** Section qui va detecter si un autre produit avec le meme id que p existe **/
 		for(int i = 0; i < products.getLength() ; i++){
 			Node nodeProduct = products.item(i);
@@ -107,10 +108,6 @@ public class StockDAO {
 		return product;
 	}
 
-	private void treatElements(NodeList list) {
-
-	}
-
 	public void removeProduct(Product p){
 		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
 		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
@@ -155,11 +152,11 @@ public class StockDAO {
 		}
 	}
 
-	public Product findProduct(Product p){
+	public Product findProduct(String id){
 		NodeList allProduct = doc.getElementsByTagName("product"); //Recupere toutes les balises product ainsi que les noeuds fils
 		for(int i = 0 ; i < allProduct.getLength() ; i++){ // parcours de tous les product
 			Node product = allProduct.item(i);
-			if(product.getChildNodes().item(1).getTextContent().equals(p.getId()))
+			if(product.getChildNodes().item(1).getTextContent().equals(id))
 				return createProductFromNode(product);
 		}
 		return null;
@@ -244,6 +241,7 @@ public class StockDAO {
 						//						System.out.println("</"+baliseName.getNodeName()+">");
 						if(name.item(k).getTextContent().equals(gp.getName())){
 							allPack.item(i).getParentNode().removeChild(allPack.item(i));
+							removeSpacesInXML();
 							saveModifications();
 						}
 					}

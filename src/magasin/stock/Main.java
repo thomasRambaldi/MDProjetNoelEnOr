@@ -27,7 +27,7 @@ public class Main {
 
 //		stock.updateProduct(penSopra, penAtos);
 		
-		Product sopra = stock.findProduct(penSopra);
+		Product sopra = stock.findProduct("5");
 //		Product atos = stock.findProduct(penAtos);
 //		
 //		System.out.println("******** SOPRA ********");

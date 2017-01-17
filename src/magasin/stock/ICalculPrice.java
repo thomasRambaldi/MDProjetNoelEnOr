@@ -1,5 +1,5 @@
 package magasin.stock;
 
 public interface ICalculPrice {
-	public double calcul(Product product);
+	public Double calcul(Product product);
 }
