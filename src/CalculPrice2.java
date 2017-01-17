@@ -5,7 +5,8 @@ public class CalculPrice2 implements ICalculPrice{
 
 	@Override
 	public double calcul(Product product) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(product.getQuantity() <= 100 )
+			product.setPrice( product.getPrice() * 0.2 );
+		return product.getPrice();
 	}
 }
