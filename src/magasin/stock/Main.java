@@ -19,17 +19,20 @@ public class Main {
 		penAtos.setQuantity(200);
 		
 //		stock.addProduct(penSopra);
+//		stock.removeProduct(penSopra);
+//		stock.addProduct(penSopra);
 //		stock.addProduct(penAtos);
 			
 //		stock.removeProduct(penSopra);
 
 //		stock.updateProduct(penSopra, penAtos);
 		
-//		Product sopra = stock.findProduct(penSopra);
+		Product sopra = stock.findProduct(penSopra);
 //		Product atos = stock.findProduct(penAtos);
 //		
 //		System.out.println("******** SOPRA ********");
-//		System.out.println(sopra.toString());
+		System.out.println(sopra.toString());
+	    stock.updatePriceProduct("2", "40");
 //
 //		System.out.println("******** ATOS ********");
 //		System.out.println(atos.toString());
