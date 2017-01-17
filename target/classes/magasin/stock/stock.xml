@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <stock>
     <products>
@@ -41,3 +42,48 @@
         </pack>
     </packs>
 </stock>
+=======
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<stock>
+    <products>
+        <product>
+            <id>1</id>
+            <name>Stylo BIC classic</name>
+            <price>2.0</price>
+            <quantity>50</quantity>
+        </product>
+        <product>
+            <id>5</id>
+            <name>Stylo Atos Rouge</name>
+            <price>53.496602689535976</price>
+            <quantity>600</quantity>
+        </product>
+    </products>
+    <packs>
+        <pack>
+            <name>BICS incroyables de Noel</name>
+            <idProducts>
+                <idProduct>
+                    <id>1</id>
+                    <quantity>10</quantity>
+                </idProduct>
+            </idProducts>
+            <price>14.99</price>
+        </pack>
+        <pack>
+            <name>Stylo d'entreprises et stagiares</name>
+            <idProducts>
+                <idProduct>
+                    <id>2</id>
+                    <quantity>100</quantity>
+                </idProduct>
+                <idProduct>
+                    <id>5</id>
+                    <quantity>200</quantity>
+                </idProduct>
+            </idProducts>
+            <price>20.0</price>
+        </pack>
+    </packs>
+</stock>
+>>>>>>> db3e330006ca00515c5726b49d9efcebe947ef44

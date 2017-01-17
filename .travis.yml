@@ -7,7 +7,5 @@ jdk:
 
 script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-  - echo "compiling files" 
+  - echo "compiling files and running test" 
   - mvn test -B
-  - echo "running test"
-  - mvn test -f pom.xml	
