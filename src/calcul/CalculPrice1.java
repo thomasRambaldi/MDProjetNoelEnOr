@@ -1,12 +1,15 @@
+package calcul;
+
 import magasin.stock.ICalculPrice;
 import magasin.stock.Product;
 
-public class CalculPrice2 implements ICalculPrice{
+public class CalculPrice1 implements ICalculPrice{
 
 	@Override
 	public Double calcul(Product product) {
-		if(product.getQuantity() <= 100 )
-			product.setPrice( product.getPrice() * 0.2 );
+		if(product.getQuantity() >= 200)
+			product.setPrice( product.getPrice() * 1.2 );
 		return product.getPrice();
 	}
+
 }
