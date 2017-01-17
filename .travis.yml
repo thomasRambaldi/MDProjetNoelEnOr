@@ -10,4 +10,4 @@ script:
   - echo "compiling files" 
   - mvn test -B
   - echo "running test"
-  - mvn test -f ./MDprojetNoelEnOr/pom.xml	
+  - mvn test -f pom.xml	
