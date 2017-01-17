@@ -9,6 +9,5 @@ script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - echo "compiling files" 
   - mvn test -B
-  - mvn test -f ./MDprojetNoelEnOr.pom.xml
   - echo "running test"
-  - ant StockTest	
+  - mvn test -f ./MDprojetNoelEnOr.pom.xml	
