@@ -1,1 +1,5 @@
 *.class
+/magasin/
+/person/
+/CalculPrice1.class
+/CalculPrice2.class
