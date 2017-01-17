@@ -51,7 +51,6 @@ public class StockDAO {
 	public void addProduct(Product p) {
 		Node baliseProducts = doc.getElementsByTagName("products").item(0);
 		NodeList products = doc.getElementsByTagName("product");
-
 		/** Section qui va detecter si un autre produit avec le meme id que p existe **/
 		for(int i = 0; i < products.getLength() ; i++){
 			Node nodeProduct = products.item(i);
@@ -247,7 +246,6 @@ public class StockDAO {
 							allPack.item(i).getParentNode().removeChild(allPack.item(i));
 							saveModifications();
 						}
-
 					}
 				}
 			}
@@ -257,28 +255,27 @@ public class StockDAO {
 
 	//	TODO : pas fini. Faut mettre les produits a l'interieur du packs a jour
 	// COmment recupere le frere dans les balises pack ?
-	public void updateGiftPack(GiftPack oldGp, GiftPack newGp){
-		NodeList allPack = doc.getElementsByTagName("pack"); // //Recupere toutes les balises pack ainsi que les noeuds fils
-		for(int i = 0 ; i < allPack.getLength() ; i++){ // parcours de tous les pack
-			NodeList detailsPack = allPack.item(i).getChildNodes();
-			for(int j = 0 ; j < allPack.getLength() ; j++){ // parcours des balises name and products
-				Node baliseName = detailsPack.item(j);
-				Node name = detailsPack.item(j).getFirstChild();
-				if(baliseName.getNodeType() == Node.ELEMENT_NODE){
-					if(name.getTextContent().equals(oldGp.getName())){
-						name.setTextContent(newGp.getName());
+	public void updateGiftPack(GiftPack oldGp, GiftPack newGp){		NodeList allPack = doc.getElementsByTagName("pack"); // //Recupere toutes les balises pack ainsi que les noeuds fils
+	for(int i = 0 ; i < allPack.getLength() ; i++){ // parcours de tous les pack
+		NodeList detailsPack = allPack.item(i).getChildNodes();
+		for(int j = 0 ; j < allPack.getLength() ; j++){ // parcours des balises name and products
+			Node baliseName = detailsPack.item(j);
+			Node name = detailsPack.item(j).getFirstChild();
+			if(baliseName.getNodeType() == Node.ELEMENT_NODE){
+				if(name.getTextContent().equals(oldGp.getName())){
+					name.setTextContent(newGp.getName());
 
-						//						NodeList idProducts= doc.getElementsByTagName("idProducts"); // On recupere tous les produits contenu dans le packs
-						//						for(int m = 0 ; m < idProducts.getLength() ; m++){ // parcours des balises name and products
-						//							System.out.println(idProducts.item(m).getNodeName());
-						//						}
-						saveModifications();
-					}
-
+					Node price = baliseName.getNextSibling().getNextSibling().getNextSibling().getNextSibling();
+					price.setTextContent(newGp.getPrice().toString());
+					System.out.println("price : " + price.getTextContent());
+					saveModifications();
 				}
+
 			}
 		}
 	}
+	}
+
 
 	public void removeSpacesInXML(){
 		XPath xp = XPathFactory.newInstance().newXPath();
