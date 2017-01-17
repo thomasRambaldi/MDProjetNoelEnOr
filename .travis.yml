@@ -3,11 +3,6 @@ install: ant deps
 
 sudo: false
 
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
-
 jdk:
   - oraclejdk8
 
@@ -17,5 +12,4 @@ script:
   - echo "compiling files" 
   - mvn test -B
   - echo "running test"
-  - ant test
-	
+  - ant test	

@@ -17,5 +17,4 @@ script:
   - echo "compiling files" 
   - mvn test -B
   - echo "running test"
-  - ant test
-	
+  - ant test	
