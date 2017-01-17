@@ -76,7 +76,7 @@ public class StockTest {
 	@Test
 	public void updateQuantityTest() throws InterruptedException{
 		sm.updateQuantityProduct("5", "600");
-//		penAtos = sm.findProduct("5");
+		penAtos = sm.findProduct("5");
 		assertEquals("600", penAtos.getQuantity().toString());
 	}
 	
